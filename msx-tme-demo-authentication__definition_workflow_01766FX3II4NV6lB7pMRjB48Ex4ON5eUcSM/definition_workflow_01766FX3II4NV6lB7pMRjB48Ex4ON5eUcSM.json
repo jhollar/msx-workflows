@@ -1,0 +1,175 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_01626ZOWAW4NT4uxbWz5LoIVKkPSRapJF8t",
+    "name": "msx.tme.demo.authentication",
+    "title": "msx.tme.demo.authentication",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [{
+      "schema_id": "datatype.string",
+      "properties": {
+        "value": "access_token",
+        "scope": "output",
+        "name": "access_token",
+        "type": "datatype.string"
+      },
+      "unique_name": "variable_workflow_01626ZQG3SQ923r9jyq1ESM2JBmPCxalJq9",
+      "object_type": "variable_workflow"
+    }, {
+      "schema_id": "datatype.string",
+      "properties": {
+        "value": "boboperator",
+        "scope": "input",
+        "name": "username",
+        "type": "datatype.string"
+      },
+      "unique_name": "variable_workflow_01626ZQG3SV3673vqDLIuzE4FVGvaTf1gmR",
+      "object_type": "variable_workflow"
+    }, {
+      "schema_id": "datatype.secure_string",
+      "properties": {
+        "value": "Y1Y1_boboperator",
+        "scope": "input",
+        "name": "password",
+        "type": "datatype.secure_string"
+      },
+      "unique_name": "variable_workflow_01626ZQG3SXIW2LewEyYto4R6a2YLddOM9o",
+      "object_type": "variable_workflow"
+    }],
+    "properties": {
+      "atomic": {
+        "atomic_group": "MSX Service Components",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Basic MSX Authentication Service Component",
+      "display_name": "msx.tme.demo.authentication",
+      "favorite": false,
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_015WS5DVR4NO070MLNO9rr83FRv4ok3TU2Z",
+          "run_on_all_targets": true,
+          "selected_target_types": ["web-service.endpoint"]
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [{
+      "unique_name": "definition_activity_01626ZR94DFV36OXcfemECOGE90N1UUfgXa",
+      "name": "HTTP Request",
+      "title": "Request Access Token",
+      "type": "web-service.http_request",
+      "base_type": "activity",
+      "properties": {
+        "accept": "application/json",
+        "action_timeout": 180,
+        "allow_auto_redirect": true,
+        "body": "{\n  \"username\": \"$workflow.definition_workflow_01626ZOWAW4NT4uxbWz5LoIVKkPSRapJF8t.input.variable_workflow_01626ZQG3SV3673vqDLIuzE4FVGvaTf1gmR$\",\n  \"password\": \"$workflow.definition_workflow_01626ZOWAW4NT4uxbWz5LoIVKkPSRapJF8t.input.variable_workflow_01626ZQG3SXIW2LewEyYto4R6a2YLddOM9o$\"\n}",
+        "content_type": "application/json",
+        "continue_on_error_status_code": false,
+        "continue_on_failure": false,
+        "display_name": "Request Access Token",
+        "method": "POST",
+        "relative_url": "/idm/api/v1/accesstoken",
+        "runtime_user": {
+          "override_target_runtime_user": false,
+          "target_default": true
+        },
+        "target": {
+          "override_workflow_target": false,
+          "override_workflow_target_group_criteria": false,
+          "use_workflow_target_group": true
+        }
+      },
+      "object_type": "definition_activity"
+    }, {
+      "unique_name": "definition_activity_01626ZRJG6QAT5tBdpnUIaSQXOiMFzIyl0W",
+      "name": "JSONPath Query",
+      "title": "Get Access Token",
+      "type": "corejava.jsonpathquery",
+      "base_type": "activity",
+      "properties": {
+        "action_timeout": 180,
+        "continue_on_failure": false,
+        "description": "Get Access Token",
+        "display_name": "Get Access Token",
+        "input_json": "$activity.definition_activity_01626ZR94DFV36OXcfemECOGE90N1UUfgXa.output.response_body$",
+        "jsonpath_queries": [{
+          "jsonpath_query": "$.oauth2.access_token",
+          "jsonpath_query_name": "access_token",
+          "jsonpath_query_type": "string",
+          "zdate_type_format": ""
+        }]
+      },
+      "object_type": "definition_activity"
+    }, {
+      "unique_name": "definition_activity_01626ZRSQL3DP0EmLo3xBznMxhuE4YUhRzt",
+      "name": "Set Variables",
+      "title": "Return Access Token",
+      "type": "core.set_multiple_variables",
+      "base_type": "activity",
+      "properties": {
+        "continue_on_failure": false,
+        "description": "Return Access Token",
+        "display_name": "Return Access Token",
+        "variables_to_update": [{
+          "variable_to_update": "$workflow.definition_workflow_01626ZOWAW4NT4uxbWz5LoIVKkPSRapJF8t.output.variable_workflow_01626ZQG3SQ923r9jyq1ESM2JBmPCxalJq9$",
+          "variable_value_new": "$activity.definition_activity_01626ZRJG6QAT5tBdpnUIaSQXOiMFzIyl0W.output.jsonpath_queries.access_token$"
+        }]
+      },
+      "object_type": "definition_activity"
+    }],
+    "categories": ["category_01ggXe9oj31C4KkAmubD6uezL1stQpioN"]
+  },
+  "categories": {
+    "category_01ggXe9oj31C4KkAmubD6uezL1stQpioN": {
+      "unique_name": "category_01ggXe9oj31C4KkAmubD6uezL1stQpioN",
+      "name": "MSX Components",
+      "title": "MSX Components",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "This category represents MSX components used to create workflows",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_015WS41BXV9KS3zktSnxY7Wk99zUUsOC4OZ": {
+      "unique_name": "definition_target_015WS41BXV9KS3zktSnxY7Wk99zUUsOC4OZ",
+      "name": "msx.tme.demo.target",
+      "title": "msx.tme.demo.target",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "description": "This target represents the MSX tme.demo.ciscomsx.com installation",
+        "disable_certificate_validation": true,
+        "display_name": "msx.tme.demo.target",
+        "host": "tme.demo.ciscomsx.com",
+        "no_runtime_user": true,
+        "protocol": "https"
+      }
+    }
+  },
+  "target_groups": {
+    "target_group_015WS5DVR4NO070MLNO9rr83FRv4ok3TU2Z": {
+      "unique_name": "target_group_015WS5DVR4NO070MLNO9rr83FRv4ok3TU2Z",
+      "name": "msx.tme.demo.tg",
+      "title": "msx.tme.demo.tg",
+      "description": "This target group represents targets setup to access the MSX instance running on tme.demo.ciscomsx.com",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [{
+        "data_target_type": "web-service.endpoint",
+        "view_target_type": "web-service.endpoint",
+        "include_all_targets": false,
+        "selected_target_ids": ["definition_target_015WS41BXV9KS3zktSnxY7Wk99zUUsOC4OZ"]
+      }],
+      "object_type": "target_group"
+    }
+  },
+  "id": "016ZNH9VXBJAK0XysD2z8A7773LJsrliZhK",
+  "name": "msx.tme.demo.authentication"
+}
