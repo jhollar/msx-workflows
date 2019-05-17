@@ -1,0 +1,188 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_0178PYNKJCL5K24RI6VDP6v1KmEqpPGMROf",
+    "name": "msx.poc.demo.authentication",
+    "title": "msx.poc.demo.authentication",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "boboperator",
+          "scope": "input",
+          "name": "username",
+          "type": "datatype.string"
+        },
+        "unique_name": "variable_workflow_0178PZB6JS4N80rNA6xBJtPQSn7hyIIcK1m",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "scope": "input",
+          "name": "password",
+          "type": "datatype.secure_string"
+        },
+        "unique_name": "variable_workflow_0178RB3MGIGFG2afkUfmMN2tYq8eIJSGhh3",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "access_token",
+          "type": "datatype.string"
+        },
+        "unique_name": "variable_workflow_0178RBBBM3GKS4dYeZMj41wwBlwjtS5E6EU",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "MSX Service Components",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": false,
+      "description": "Basic MSX Authentication Service Component",
+      "display_name": "msx.poc.demo.authentication",
+      "favorite": false,
+      "target": {
+        "execute_on_target_group": true,
+        "target_group": {
+          "target_group_id": "target_group_0178Q0UEXDA2G6dtnxzP5G2CfyM0T8k3Jzz",
+          "run_on_all_targets": true,
+          "selected_target_types": [
+            "web-service.endpoint"
+          ]
+        }
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_0178Q1KRP3DCW7JJkwxf67X1RYviUZKKMu0",
+        "name": "HTTP Request",
+        "title": "Request Access Token",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"username\": \"$workflow.definition_workflow_0178PYNKJCL5K24RI6VDP6v1KmEqpPGMROf.input.variable_workflow_0178PZB6JS4N80rNA6xBJtPQSn7hyIIcK1m$\",\n  \"password\": \"$workflow.definition_workflow_0178PYNKJCL5K24RI6VDP6v1KmEqpPGMROf.input.variable_workflow_0178RB3MGIGFG2afkUfmMN2tYq8eIJSGhh3$\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "Request Access Token",
+          "method": "POST",
+          "relative_url": "/idm/api/v1/login",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_0178PTLPT7HZG08a9Mif7SuH3GsVrEbxOjb",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_0178RBDW5HBNK0A4tUZtu7uQexUl4jLkEBS",
+        "name": "JSONPath Query",
+        "title": "Get Access Token",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get Access Token",
+          "input_json": "$activity.definition_activity_0178Q1KRP3DCW7JJkwxf67X1RYviUZKKMu0.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.responseObject.userToken",
+              "jsonpath_query_name": "accesstoken",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": ""
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_0178RF1D83J8K6g3h5jGfvDzjbrz9uHVWzd",
+        "name": "Set Variables",
+        "title": "Set Access Token for Return",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Access Token for Return",
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_0178PYNKJCL5K24RI6VDP6v1KmEqpPGMROf.output.variable_workflow_0178RBBBM3GKS4dYeZMj41wwBlwjtS5E6EU$",
+              "variable_value_new": "$activity.definition_activity_0178RBDW5HBNK0A4tUZtu7uQexUl4jLkEBS.output.jsonpath_queries.accesstoken$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01ggXe9oj31C4KkAmubD6uezL1stQpioN"
+    ]
+  },
+  "categories": {
+    "category_01ggXe9oj31C4KkAmubD6uezL1stQpioN": {
+      "unique_name": "category_01ggXe9oj31C4KkAmubD6uezL1stQpioN",
+      "name": "MSX Components",
+      "title": "MSX Components",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "This category represents MSX components used to create workflows",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_0178PTLPT7HZG08a9Mif7SuH3GsVrEbxOjb": {
+      "unique_name": "definition_target_0178PTLPT7HZG08a9Mif7SuH3GsVrEbxOjb",
+      "name": "msx.poc.demo.target",
+      "title": "msx.poc.demo.target",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "description": "MSX v3.6 running on poc.demo target",
+        "disable_certificate_validation": true,
+        "display_name": "msx.poc.demo.target",
+        "host": "poc.demo.ciscomsx.com",
+        "no_runtime_user": true,
+        "protocol": "https"
+      }
+    }
+  },
+  "target_groups": {
+    "target_group_0178Q0UEXDA2G6dtnxzP5G2CfyM0T8k3Jzz": {
+      "unique_name": "target_group_0178Q0UEXDA2G6dtnxzP5G2CfyM0T8k3Jzz",
+      "name": "msx.poc.demo.tg",
+      "title": "msx.poc.demo.tg",
+      "description": "Target Group for POC.DEMO",
+      "type": "generic.target_group",
+      "base_type": "target_group",
+      "version": "1.0.0",
+      "targets": [
+        {
+          "data_target_type": "web-service.endpoint",
+          "view_target_type": "web-service.endpoint",
+          "include_all_targets": true
+        }
+      ],
+      "object_type": "target_group"
+    }
+  }
+}
