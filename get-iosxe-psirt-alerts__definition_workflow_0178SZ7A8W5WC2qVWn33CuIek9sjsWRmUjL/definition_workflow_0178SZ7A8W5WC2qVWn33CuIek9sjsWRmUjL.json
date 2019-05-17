@@ -1,0 +1,147 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_0178SZ7A8W5WC2qVWn33CuIek9sjsWRmUjL",
+    "name": "Get IOSXE PSIRT Alerts",
+    "title": "Get IOSXE PSIRT Alerts",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "16.8.1",
+          "scope": "input",
+          "name": "version-number",
+          "type": "datatype.string"
+        },
+        "unique_name": "variable_workflow_0178T192NYA7O3yz9xzdFaDdzznGX7Ti0aV",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "Get IOSXE Alerts by version number",
+      "display_name": "Get IOSXE PSIRT Alerts",
+      "favorite": false,
+      "target": {
+        "execute_on_target_group": false,
+        "execute_on_workflow_target": false,
+        "no_target": true,
+        "specify_on_workflow_start": false
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_0178SZI3BL0F87OmWAGHCf1tkR1frPhPCeD",
+        "name": "Get PSIRT Access Token",
+        "title": "Get PSIRT Access Token",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Get PSIRT Access Token",
+          "input": {},
+          "target": {
+            "execute_on_this_target": true,
+            "override_workflow_target": false,
+            "target_id": "definition_target_015NRR3HLE8QC76NobRr4W323yi4wVsXT0r",
+            "target_type": "web-service.endpoint"
+          },
+          "workflow_id": "definition_workflow_015NSPVFFYIHT7W0LqYDLHAE9GqPE9va0yb"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_0178SZV5QICUO3mCxnxS2bWPdX3lmCPRqdA",
+        "name": "HTTP Request",
+        "title": "Get IOSXE Alerts",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "custom_headers": [
+            {
+              "name": "authorization",
+              "value": "Bearer $activity.definition_activity_0178SZI3BL0F87OmWAGHCf1tkR1frPhPCeD.output.variable_workflow_015NSPVRDDZPB7hN4EFhHo47GAxnWWEmILQ$"
+            }
+          ],
+          "display_name": "Get IOSXE Alerts",
+          "method": "GET",
+          "relative_url": "/security/advisories/iosxe?version=$workflow.definition_workflow_0178SZ7A8W5WC2qVWn33CuIek9sjsWRmUjL.input.variable_workflow_0178T192NYA7O3yz9xzdFaDdzznGX7Ti0aV$",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "target": {
+            "override_workflow_target": true,
+            "override_workflow_target_group_criteria": false,
+            "target_id": "definition_target_0178SH24RCH2K12O73gwIJsYFRN8mFxxW1j",
+            "use_workflow_target_group": false
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_01h7XL8WgbJB3tUG3rMC3GZRpfrP5ASjK"
+    ]
+  },
+  "categories": {
+    "category_01h7XL8WgbJB3tUG3rMC3GZRpfrP5ASjK": {
+      "unique_name": "category_01h7XL8WgbJB3tUG3rMC3GZRpfrP5ASjK",
+      "name": "MSX Operations",
+      "title": "MSX Operations",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "This category represents various MSX operations",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_015NRR3HLE8QC76NobRr4W323yi4wVsXT0r": {
+      "unique_name": "definition_target_015NRR3HLE8QC76NobRr4W323yi4wVsXT0r",
+      "name": "psirt-cloudsso",
+      "title": "psirt-cloudsso",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "description": "This target is used to obtain PSIRT tokens which are then used to obtain PSIRT information",
+        "disable_certificate_validation": true,
+        "display_name": "psirt-cloudsso",
+        "host": "cloudsso.cisco.com",
+        "no_runtime_user": true,
+        "protocol": "https"
+      }
+    },
+    "definition_target_0178SH24RCH2K12O73gwIJsYFRN8mFxxW1j": {
+      "unique_name": "definition_target_0178SH24RCH2K12O73gwIJsYFRN8mFxxW1j",
+      "name": "psirt-api-target",
+      "title": "psirt-api-target",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "description": "PSIRT API target ",
+        "disable_certificate_validation": true,
+        "display_name": "psirt-api-target",
+        "host": "api.cisco.com",
+        "no_runtime_user": true,
+        "protocol": "https"
+      }
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_015NSPVFFYIHT7W0LqYDLHAE9GqPE9va0yb"
+  ]
+}
