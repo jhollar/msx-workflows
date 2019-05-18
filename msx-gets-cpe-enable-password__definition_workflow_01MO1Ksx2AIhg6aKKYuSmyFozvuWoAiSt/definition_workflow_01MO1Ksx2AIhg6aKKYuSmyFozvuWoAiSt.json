@@ -9,23 +9,24 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "",
-          "scope": "output",
-          "name": "cpePassword",
-          "type": "datatype.string"
+          "value": "Coke",
+          "scope": "input",
+          "name": "tenantName",
+          "type": "datatype.string",
+          "description": "Input from User that we will search on"
         },
-        "unique_name": "variable_workflow_01MhrRfJ2JKQDbsHM4TpvSjCO7XVcNpf4",
+        "unique_name": "variable_workflow_01Mdl9nJBpZZMFEJ6PWHZ9GgCaCIL0pJk",
         "object_type": "variable_workflow"
       },
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "3.6",
-          "scope": "input",
-          "name": "Version",
+          "value": "",
+          "scope": "local",
+          "name": "username",
           "type": "datatype.string"
         },
-        "unique_name": "variable_workflow_0175FBQPTFM6V0CpXolhqRlvRSC5JkFhVJH",
+        "unique_name": "variable_workflow_01MO1NgO3seDAuozfrk0sYOkp12e8D2e2",
         "object_type": "variable_workflow"
       },
       {
@@ -41,6 +42,17 @@
       {
         "schema_id": "datatype.string",
         "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "password",
+          "type": "datatype.string"
+        },
+        "unique_name": "variable_workflow_01MO1P4CRVTB3LcH3hN2mIVD1vXAeXRAm",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
           "value": "9B9WWGGAGGW",
           "scope": "input",
           "name": "deviceSerial",
@@ -48,28 +60,6 @@
           "description": "Serial Number of the Device"
         },
         "unique_name": "variable_workflow_01MgcasXGewLmrmPKLRbJXlcXbMoXLOJN",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "cpeName",
-          "type": "datatype.string"
-        },
-        "unique_name": "variable_workflow_01MddaF53SiJtONHFU7R1gPyQ0HB7Swxy",
-        "object_type": "variable_workflow"
-      },
-      {
-        "schema_id": "datatype.string",
-        "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "username",
-          "type": "datatype.string"
-        },
-        "unique_name": "variable_workflow_01MO1NgO3seDAuozfrk0sYOkp12e8D2e2",
         "object_type": "variable_workflow"
       },
       {
@@ -98,24 +88,34 @@
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "",
-          "scope": "local",
-          "name": "password",
+          "value": "3.6",
+          "scope": "input",
+          "name": "Version",
           "type": "datatype.string"
         },
-        "unique_name": "variable_workflow_01MO1P4CRVTB3LcH3hN2mIVD1vXAeXRAm",
+        "unique_name": "variable_workflow_0175FBQPTFM6V0CpXolhqRlvRSC5JkFhVJH",
         "object_type": "variable_workflow"
       },
       {
         "schema_id": "datatype.string",
         "properties": {
-          "value": "Coke",
-          "scope": "input",
-          "name": "tenantName",
-          "type": "datatype.string",
-          "description": "Input from User that we will search on"
+          "value": "",
+          "scope": "output",
+          "name": "cpePassword",
+          "type": "datatype.string"
         },
-        "unique_name": "variable_workflow_01Mdl9nJBpZZMFEJ6PWHZ9GgCaCIL0pJk",
+        "unique_name": "variable_workflow_01MhrRfJ2JKQDbsHM4TpvSjCO7XVcNpf4",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "cpeName",
+          "type": "datatype.string"
+        },
+        "unique_name": "variable_workflow_01MddaF53SiJtONHFU7R1gPyQ0HB7Swxy",
         "object_type": "variable_workflow"
       }
     ],
@@ -291,58 +291,7 @@
           "display_name": "For Each Element in the Tenant  Array",
           "source_array": "$activity.definition_activity_01MaGdA5IFS5yCvg2puHotr1oS5FoEHzq.output.read_table_from_json$"
         },
-        "object_type": "definition_activity",
-        "actions": [
-          {
-            "unique_name": "definition_activity_01MdjB9gt25zBz8XlAVZ7YMPwimrIpurc",
-            "name": "Condition Block",
-            "title": "Condition Block",
-            "type": "logic.if_else",
-            "base_type": "activity",
-            "properties": {
-              "display_name": "Condition Block"
-            },
-            "object_type": "definition_activity",
-            "blocks": [
-              {
-                "unique_name": "definition_activity_01MdjBBqUttF2OBTu26lEaw1oziaBZlcF",
-                "name": "Condition Branch",
-                "title": "If DisplayName  Matches",
-                "type": "logic.condition_block",
-                "base_type": "activity",
-                "properties": {
-                  "condition": {
-                    "left_operand": "$activity.definition_activity_01MdheiQThJpfq1rSbvuncY147i7U3iro.input.source_array[@].displayName$",
-                    "operator": "eq",
-                    "right_operand": "$workflow.definition_workflow_01MO1Ksx2AIhg6aKKYuSmyFozvuWoAiSt.input.variable_workflow_01Mdl9nJBpZZMFEJ6PWHZ9GgCaCIL0pJk$"
-                  },
-                  "description": "Match the inputed Display Name Against the List\n",
-                  "display_name": "If DisplayName  Matches"
-                },
-                "object_type": "definition_activity",
-                "actions": [
-                  {
-                    "unique_name": "definition_activity_01MdjopZCIW0v7ND9Ty5RbDWu3nZ0Kblo",
-                    "name": "Set Variables",
-                    "title": "Set tenantID",
-                    "type": "core.set_multiple_variables",
-                    "base_type": "activity",
-                    "properties": {
-                      "display_name": "Set tenantID",
-                      "variables_to_update": [
-                        {
-                          "variable_to_update": "$workflow.definition_workflow_01MO1Ksx2AIhg6aKKYuSmyFozvuWoAiSt.local.variable_workflow_01MddxTFHS53tJIh5y5sb5wTe8EFbSAk8$",
-                          "variable_value_new": "$activity.definition_activity_01MdheiQThJpfq1rSbvuncY147i7U3iro.input.source_array[@].tenantId$"
-                        }
-                      ]
-                    },
-                    "object_type": "definition_activity"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+        "object_type": "definition_activity"
       },
       {
         "unique_name": "definition_activity_01MdlkpSns1rDaJah3qWdrM2p9pDJy7d9",
@@ -406,6 +355,7 @@
         "base_type": "activity",
         "properties": {
           "action_timeout": 180,
+          "continue_on_failure": false,
           "display_name": "Get the DeviceID",
           "input_json": "$activity.definition_activity_01MgxothHiaYLKDjUTLqRCUpQzmMfjcGp.output.result_string$",
           "jsonpath_queries": [
@@ -414,6 +364,30 @@
               "jsonpath_query_name": "deviceId",
               "jsonpath_query_type": "string",
               "zdate_type_format": ""
+            },
+            {
+              "jsonpath_query": "$..deviceInstances[*].tenantId",
+              "jsonpath_query_name": "tenantId",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": ""
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_0179CAO682MR161UENrZVzt6fBVsMetcHzo",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Variables",
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_01MO1Ksx2AIhg6aKKYuSmyFozvuWoAiSt.local.variable_workflow_01MddxTFHS53tJIh5y5sb5wTe8EFbSAk8$",
+              "variable_value_new": "$activity.definition_activity_01Mgj5yGzXz1UC0WSuGfgRuCsDQRusRH3.output.jsonpath_queries.tenantId$"
             }
           ]
         },
@@ -600,7 +574,8 @@
       }
     ],
     "categories": [
-      "category_015WSP6FKOE1G0rdwqNdMBv1RDpYSbj4pfX"
+      "category_015WSP6FKOE1G0rdwqNdMBv1RDpYSbj4pfX",
+      "category_0179BZL81NTFM2oN8G6nBrkIBKNpaaLnsL5"
     ]
   },
   "categories": {
@@ -611,6 +586,16 @@
       "type": "basic.category",
       "base_type": "category",
       "description": "Category to support MSX Operational Workflows",
+      "category_type": "custom",
+      "object_type": "category"
+    },
+    "category_0179BZL81NTFM2oN8G6nBrkIBKNpaaLnsL5": {
+      "unique_name": "category_0179BZL81NTFM2oN8G6nBrkIBKNpaaLnsL5",
+      "name": "c0fe2e89-302c-4973-9ddc-e4e6c910fd91",
+      "title": "c0fe2e89-302c-4973-9ddc-e4e6c910fd91",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "c0fe2e89-302c-4973-9ddc-e4e6c910fd91",
       "category_type": "custom",
       "object_type": "category"
     }
