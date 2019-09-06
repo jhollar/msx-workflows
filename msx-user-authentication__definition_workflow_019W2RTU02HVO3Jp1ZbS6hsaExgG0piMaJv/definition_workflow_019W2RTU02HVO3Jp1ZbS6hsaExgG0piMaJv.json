@@ -1,0 +1,153 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_019W2RTU02HVO3Jp1ZbS6hsaExgG0piMaJv",
+    "name": "msx.user.authentication",
+    "title": "msx.user.authentication",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "output",
+          "name": "access_token",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_019W2RUNYBTMY4dfJ2q8NLqMJhlqGMrCrYJ",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "boboperator",
+          "scope": "input",
+          "name": "username",
+          "type": "datatype.string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_019W2RUNYBUPJ74nDU5KBQC40DY0bDj94HC",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.secure_string",
+        "properties": {
+          "value": "*****",
+          "scope": "input",
+          "name": "password",
+          "type": "datatype.secure_string",
+          "is_required": false
+        },
+        "unique_name": "variable_workflow_019W2RUNYBQXP7KJSr7p7UXC5TuLza731na",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "atomic_group": "MSX-COMPONENTS",
+        "is_atomic": true
+      },
+      "delete_workflow_instance": true,
+      "description": "Atomic: Basic MSX User Authentication Service Component",
+      "display_name": "msx.user.authentication",
+      "favorite": false,
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "specify_on_workflow_start": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_019W2RV26VZPU4jfIdICI3Tur1ZVx6b9L7s",
+        "name": "HTTP Request",
+        "title": "Request Access Token",
+        "type": "web-service.http_request",
+        "base_type": "activity",
+        "properties": {
+          "accept": "application/json",
+          "action_timeout": 180,
+          "allow_auto_redirect": true,
+          "body": "{\n  \"username\": \"$workflow.definition_workflow_019W2RTU02HVO3Jp1ZbS6hsaExgG0piMaJv.input.variable_workflow_019W2RUNYBUPJ74nDU5KBQC40DY0bDj94HC$\",\n  \"password\": \"$workflow.definition_workflow_019W2RTU02HVO3Jp1ZbS6hsaExgG0piMaJv.input.variable_workflow_019W2RUNYBQXP7KJSr7p7UXC5TuLza731na$\"\n}",
+          "content_type": "application/json",
+          "continue_on_error_status_code": false,
+          "continue_on_failure": false,
+          "display_name": "Request Access Token",
+          "method": "POST",
+          "relative_url": "/idm/api/v1/login",
+          "runtime_user": {
+            "override_target_runtime_user": false,
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_019W2RV727HGP4b1byIhnZTOBl8eLXtm50q",
+        "name": "JSONPath Query",
+        "title": "Get Access Token",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "display_name": "Get Access Token",
+          "input_json": "$activity.definition_activity_019W2RV26VZPU4jfIdICI3Tur1ZVx6b9L7s.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.responseObject.userToken",
+              "jsonpath_query_name": "accesstoken",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": ""
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_019W2RVBS2BQ94blqZ9PB5X4kU6vSLOMA4x",
+        "name": "Set Variables",
+        "title": "Set Access Token for Return",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "Set Access Token for Return",
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_019W2RTU02HVO3Jp1ZbS6hsaExgG0piMaJv.output.variable_workflow_019W2RUNYBTMY4dfJ2q8NLqMJhlqGMrCrYJ$",
+              "variable_value_new": "$activity.definition_activity_019W2RV727HGP4b1byIhnZTOBl8eLXtm50q.output.jsonpath_queries.accesstoken$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_019W2XVG721B44TRKBKKsepAIWpze3JlcEF"
+    ]
+  },
+  "categories": {
+    "category_019W2XVG721B44TRKBKKsepAIWpze3JlcEF": {
+      "unique_name": "category_019W2XVG721B44TRKBKKsepAIWpze3JlcEF",
+      "name": "msx-components",
+      "title": "msx-components",
+      "type": "basic.category",
+      "base_type": "category",
+      "description": "These are various atomic workflows created and used as building blocks for MSX workflows",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  }
+}
